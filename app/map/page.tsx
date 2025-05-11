@@ -22,7 +22,8 @@ export default function MapPage() {
     weatherData,
     userLocation,
     currentAQI,
-    stationPollutants
+    stationPollutants,
+    isLoading
   } = useAirQuality();
   
   // Local state to force updates when context changes
@@ -48,8 +49,8 @@ export default function MapPage() {
     setLocalSelectedStation(station);
   };
 
-  // If selected station is null, show a loading state
-  if (!localSelectedStation) {
+  // If selected station is null or loading, show a loading state
+  if (!localSelectedStation || isLoading) {
     return (
       <div className="container mx-auto p-6">
         <h1 className="text-3xl font-bold mb-6">Air Quality Map</h1>

@@ -96,17 +96,23 @@ const MapComponent = ({
         iconAnchor: [12, 12]
       });
 
-      const marker = L.marker([station.lat, station.lng], { icon: customIcon })
-        .addTo(mapInstanceRef.current)
-        .on('click', () => {
-          onStationSelect(station);
-        });
+      // Use latitude and longitude properties
+      const lat = station.latitude || station.lat;
+      const lng = station.longitude || station.lng;
+      
+      if (lat && lng) {
+        const marker = L.marker([lat, lng], { icon: customIcon })
+          .addTo(mapInstanceRef.current)
+          .on('click', () => {
+            onStationSelect(station);
+          });
 
-      // Create popup content with station info
-      const popupContent = L.popup().setContent(createPopupContent(station));
-      popupsRef.current[station.id] = popupContent;
-      marker.bindPopup(popupContent);
-      markersRef.current[station.id] = marker;
+        // Create popup content with station info
+        const popupContent = L.popup().setContent(createPopupContent(station));
+        popupsRef.current[station.id] = popupContent;
+        marker.bindPopup(popupContent);
+        markersRef.current[station.id] = marker;
+      }
     });
 
     // Open popup for selected station
